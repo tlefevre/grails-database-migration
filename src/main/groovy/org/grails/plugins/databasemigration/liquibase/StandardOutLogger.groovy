@@ -17,23 +17,29 @@ package org.grails.plugins.databasemigration.liquibase
 
 import groovy.transform.CompileStatic
 import liquibase.logging.LogLevel
-import liquibase.logging.core.DefaultLogger
+//import liquibase.logging.core.DefaultLogger
+import liquibase.logging.core.Slf4jLogger
 import liquibase.util.StringUtils
+import org.slf4j.Logger
 
 import java.text.DateFormat
 
 @CompileStatic
-class StandardOutLogger extends DefaultLogger {
+class StandardOutLogger extends Slf4jLogger {
 
     final int priority = 5
 
     String name
+
+    StandardOutLogger(Logger logger) {
+        super(logger)
+    }
 
     protected void print(LogLevel logLevel, String message) {
         if (StringUtils.trimToNull(message) == null) {
             return
         }
 
-        println("${logLevel} ${DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date())}: ${name}: ${buildMessage(message)}")
+        println("${logLevel} ${DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date())}: ${name}: ${message}")
     }
 }

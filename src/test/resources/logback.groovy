@@ -10,7 +10,7 @@ appender('STDOUT', ConsoleAppender) {
 
 root(INFO, ['STDOUT'])
 
-logger("org.grails", DEBUG, ['STDOUT'], false)
+//logger("org.grails", DEBUG, ['STDOUT'], false)
 
 logger("liquibase", DEBUG, ['STDOUT'], false)
 
