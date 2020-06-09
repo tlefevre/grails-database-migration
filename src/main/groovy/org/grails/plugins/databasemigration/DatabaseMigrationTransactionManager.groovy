@@ -7,6 +7,8 @@ import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.support.DefaultTransactionDefinition
 import org.springframework.util.Assert
 
+import java.util.regex.Matcher
+
 /**
  * Created by Jim on 7/15/2016.
  */
@@ -27,9 +29,12 @@ class DatabaseMigrationTransactionManager {
     PlatformTransactionManager getTransactionManager() {
         String dataSource = this.dataSource ?: "dataSource"
         String beanName = "transactionManager"
-        if (dataSource != "dataSource") {
-            beanName += "_${dataSource}"
+
+        Matcher matcher = (dataSource =~ /dataSource_(.*)/)
+        if (matcher.matches()) {
+            beanName += "_${matcher.group(1)}"
         }
+
         applicationContext.getBean(beanName, PlatformTransactionManager)
     }
 
